@@ -278,3 +278,35 @@ void update(int n, Atom atoms[]) {
         }
     }
 }
+
+
+//
+// main: Creates the drawing window, initializes the atoms (either randomly or from file),
+// draws the initial state, waits for the user to press Enter, then performs F update iterations
+// with a delay of S milliseconds between each frame. Finally, it cleans up and waits until the
+// user closes the window.
+//
+int main(int argc, const char* argv[])
+{
+    beginDrawing(W, H, "Atoms", 0xFFFFFF, false);
+    int n = number(argc, argv);
+    Atom* atoms = new Atom[n];
+    init(n, atoms, argc, argv);
+    draw(n, atoms);
+
+    cout << "Press <ENTER> to continue..." << endl;
+    string s;
+    getline(cin, s);
+
+    for (int i = 0; i < F; i++)
+    {
+        update(n, atoms);
+        draw(n, atoms);
+        this_thread::sleep_for(chrono::milliseconds(S));
+    }
+
+    delete[] atoms;
+    cout << "Close window to exit..." << endl;
+    endDrawing();
+    return 0;
+}
