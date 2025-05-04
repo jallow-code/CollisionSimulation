@@ -37,3 +37,30 @@ struct Atom {
     double x, y;  // center position
     double vx, vy; // velocity components
 };
+
+//
+// number: Determines the number of atoms.
+// If no file is given (argc==1), returns DEFAULT_N.
+// If a file is provided (argc==2), reads the first number from the file.
+//
+int number(int argc, const char* argv[]) {
+    int n = 0;
+    if (argc == 1) {
+        n = DEFAULT_N;
+    }
+    else if (argc == 2) {
+        ifstream infile(argv[1]);
+        if (!infile) {
+            cerr << "Error: Cannot open file " << argv[1] << endl;
+            exit(1);
+        }
+        infile >> n;
+        if (!infile || n <= 0) {
+            cerr << "Error: Invalid number of atoms in file" << endl;
+            exit(1);
+        }
+    }
+    // Print the number of atoms
+    cout << n << endl;
+    return n;
+}
